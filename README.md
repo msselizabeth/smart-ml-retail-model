@@ -33,211 +33,95 @@ table th, table td {
 }
 </style>
 
-# Holiday‑Weekend High‑Value Transaction Prediction
+**Customer-Category Predictor**
+
+A simple classifier that predicts which product category a customer will buy next, enabling personalized recommendations and smarter marketing outreach.
+
+---
+
+## Guiding Research Question
+
+- **How accurately can we predict a customer’s next purchase category using transaction date, demographics, and order details to drive personalized recommendations?**
+
+---
 
 ## 1. Purpose & Overview
 
-This project demonstrates how to predict “high‑value” customer transactions in the two weeks prior to Black Friday, enabling targeted holiday incentives:
+**Business Motivation**  
+E‑commerce platforms and retail apps rely on relevant product recommendations to boost engagement, conversion rates, and average order value. Our Customer‑Category Predictor will forecast the next product category a given customer is most likely to purchase, allowing businesses to:
 
-- **Free gift** for the top 25% of predicted spenders
-- **10% off coupon** for the remaining customers
+- Surface a “Products you may like” section on websites and apps.  
+- Send targeted emails or messages with appropriate discounts, offers, or product suggestions.  
+- Increase customer satisfaction and lifetime value by personalizing the shopping experience.
 
-By accurately forecasting the highest spenders using only demographics and time‑of‑purchase features, we estimate incremental holiday‑weekend revenue uplift, inform incentive strategy, and showcase an end‑to‑end data science pipeline.
+**Project Objective**  
+Build and evaluate a machine learning classifier that, given a set of customer and transaction features, outputs probabilities for four categories: **Clothing**, **Electronics**, **Beauty**, and **Other**.
 
----
 
-## 2. Goals & Objectives
+## 2. Business Question & Success Criteria
 
-1. **Define high‑value transactions**
+- **Primary Question:** Which product category will this customer purchase next?  
+- **Key Metric:** Achieve at least **60% accuracy** on the held‑out test set and calibrate predicted probabilities so they reflect true purchase likelihoods.
 
-   - Calculate the 75th percentile of `Total_Amount` in the holiday window (2023‑11‑10 to 2023‑11‑23)
-   - Create binary label `is_high`: 1 for top 25% spenders, 0 otherwise
 
-2. **Build predictive models**
+## 3. Goals & Objectives
 
-   - Baseline: Logistic Regression
-   - Advanced: Random Forest, Gradient Boosting Machine
-   - Evaluate with ROC AUC, precision/recall, lift curves
+1. **Exploratory Data Analysis:**  
+   - Identify patterns and trends in transaction dates, demographics, and purchase quantities.  
+   - Check for missing values, outliers, and class imbalance.
 
-3. **Simulate revenue uplift**
+2. **Feature Engineering:**  
+   - Transform **Date** into **Month** and **Season**.  
+   - Create flags or bins for **Age** and **Gender**.  
+   - Normalize **Quantity** and **Price per Unit**; optionally derive additional features (e.g., purchase frequency).
 
-   - Assign incentives based on predicted probabilities
-   - Compare incremental revenue under multiple `(α₁, α₂, p*)` scenarios
+3. **Model Development:**  
+   - Compare algorithms (e.g., Logistic Regression, Random Forest, ?).  
+   - Use cross‑validation and hyperparameter tuning (GridSearchCV) to select the best model.
 
-4. **Deliverables**
+4. **Evaluation & Validation:**  
+   - Split the data into Train/Validation/Test sets.  
+   - Evaluate performance metrics (Accuracy, Precision, Recall, ROC‑AUC).  
+   - Analyze confusion matrix and probability calibration.
 
-   - Reproducible scripts/notebooks for each pipeline stage
-   - A `run_all.sh` orchestrator for end‑to‑end execution
-   - Slide deck summarizing methods, results, and business impact
+5. **Documentation & Reproducibility:**  
+   - Provide a Jupyter notebook or script that reproduces the entire pipeline.  
+   - Write clear instructions in **README.md** for setup and execution.
 
----
+6. **Team Video Reflections (Portfolio Asset):**  
+   - Each member records a 3–5 minute video answering:  
+     - What they learned.  
+     - Challenges faced and how they were overcome.  
+     - Future improvements and individual strengths.
 
-## 3. Data Overview
 
-- **Source**: `data/raw/retail_sales_dataset.csv` (see [data dictionary](#data-dictionary))
-- **Timeframe**: 2023‑01‑01 to 2024‑01‑01 (all transactions)
-- **Key columns**:
+## 4. Techniques & Technologies Techniques & Technologies
 
-| Column            | Type     | Description                        |
-| ----------------- | -------- | ---------------------------------- |
-| `TransactionID`   | string   | Unique transaction identifier      |
-| `Date`            | datetime | Purchase timestamp                 |
-| `CustomerID`      | string   | Customer identifier (all unique)   |
-| `Age`             | integer  | Customer age in years              |
-| `Gender`          | category | M / F                              |
-| `ProductCategory` | category | E.g. Electronics, Beauty, Clothing |
-| `Quantity`        | integer  | Units purchased                    |
-| `PricePerUnit`    | float    | Price per item                     |
-| `Total_Amount`    | float    | Quantity × PricePerUnit            |
+- **Languages & Libraries:** Python, pandas, NumPy, scikit-learn, Matplotlib  
+- **Modeling:** Logistic Regression, Random Forest, ?  
+- **Preprocessing:** scikit-learn Pipelines, One‑Hot Encoding, StandardScaler
+- **Version Control:** Git  
+- **Reproducible Environment:** ?
 
-### 3.1 Holiday Window Definition
 
-- **Black Friday 2023**: 2023‑11‑24
-- **Holiday window**: All purchases with `Date` ≥ 2023‑11‑10 and < 2023‑11‑24
+## 5. Plan & Tasks
 
----
+**Day 1 (Wednesday)**  
+- **Project Kickoff:** Create repository, set up initial structure, establish collaboration protocols.
 
-## 4. Feasibility Assessment
+**Day 2 (Thursday)**  
+- **EDA & Data Cleaning:** Perform data summary, analyze missing values, and handle outliers.  
+- **README Review:** Review and update README sections for clarity and completeness.
+- **Assign Roles** Decide who's doing what + back-ups.
 
-| Aspect                                     | Feasible? | Notes / Caveats                                                                      |
-| ------------------------------------------ | --------- | ------------------------------------------------------------------------------------ |
-| **Label definition** (top 25% spenders)    | ✔️        | Compute 75th percentile of `Total_Amount` in holiday window                          |
-| **Features** (Age, Gender, Category, time) | ✔️        | All derivable—no missing values                                                      |
-| **Modeling** (binary classification)       | ✔️        | Logistic Regression, Random Forest, GBM                                              |
-| **Holiday window**                         | ✔️        | Filter by date                                                                       |
-| **Control group / uplift measurement**     | ◼️        | No true A/B data for gift vs. coupon; uplift must be simulated using assumed factors |
+**Day 3 (Tuesday)**  
+- **Feature Engineering:** Transform `Date` into `Month`/`Season`, encode `Age` and `Gender`, and normalize continuous features.
 
----
+**Day 4 (Wednesday)**  
+- **Initial Modeling:** Build baseline classifier (Logistic Regression), evaluate initial performance, and document results.
 
-## 5. Pipeline & Prototype Steps
+**Day 5 (Thursday)**  
+- **Documentation & Reporting:** Draft/update Purpose, Goals, and Dataset sections in README; comment code and organize project files.  
+- **Video Reflections Setup:** Outline individual video reflection prompts and assign recording responsibilities.
 
-### 5.1 Holiday Window Filtering & Labeling
 
-```python
-import pandas as pd
-
-df = pd.read_csv('data/raw/retail_sales_dataset.csv', parse_dates=['Date'])
-BF_DATE = pd.Timestamp('2023-11-24')
-
-# Filter
-mask = (df.Date >= '2023-11-10') & (df.Date < '2023-11-24')
-df_holiday = df.loc[mask].copy()
-
-# Threshold & Label
-threshold = df_holiday.Total_Amount.quantile(0.75)
-df_holiday['is_high'] = (df_holiday.Total_Amount >= threshold).astype(int)
-```
-
-### 5.2 Feature Engineering
-
-```python
-# Demographics
-df_holiday['Age_bin'] = pd.cut(df_holiday.Age, bins=[18,25,35,45,55,100], labels=False)
-
-# One-hot categories
-df_holiday = pd.get_dummies(df_holiday, columns=['ProductCategory'], prefix='cat')
-
-# Temporal features
-df_holiday['day_of_week'] = df_holiday.Date.dt.dayofweek
-df_holiday['hour_of_day'] = df_holiday.Date.dt.hour
-df_holiday['days_to_bf'] = (BF_DATE - df_holiday.Date).dt.days
-
-# Final feature set
-feature_cols = ['Age_bin','Gender_M','Gender_F','day_of_week','hour_of_day','days_to_bf'] + \
-               [c for c in df_holiday if c.startswith('cat_')]
-X = df_holiday[feature_cols]
-y = df_holiday['is_high']
-```
-
-### 5.3 Train/Test Split & Modeling
-
-```python
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import roc_auc_score, precision_score, recall_score
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
-# Baseline
-logit = LogisticRegression(max_iter=1000)
-logit.fit(X_train, y_train)
-
-# Evaluate
-y_pred_proba = logit.predict_proba(X_test)[:,1]
-print('ROC AUC:', roc_auc_score(y_test, y_pred_proba))
-```
-
-### 5.4 Revenue Simulation
-
-```python
-import numpy as np
-
-def simulate_revenue(df, model, α1, α2, p_thresh):
-    probs = model.predict_proba(df[feature_cols])[:,1]
-    df = df.copy()
-    df['incentive'] = np.where(probs >= p_thresh, 'gift', 'coupon')
-    df['rev_sim'] = np.where(
-        df['is_high']==1,
-        (1+α1) * df['Total_Amount'],
-        (1+α2) * df['Total_Amount'] * 0.90
-    )
-    return df['rev_sim'].sum()
-
-# Example
-revenue = simulate_revenue(df_holiday, logit, α1=0.10, α2=0.05, p_thresh=0.55)
-print('Simulated Revenue:', revenue)
-```
-
-### 5.5 Evaluation & Reporting
-
-- **Metrics**: ROC AUC, Precision\@25%, Recall\@25%
-- **Charts**: ROC curve, feature importances, uplift comparison
-- **Sensitivity Analysis**: Vary α₁, α₂, p\* to show impact on incremental revenue
-
----
-
-## 6. Limitations & Assumptions
-
-1. **No true A/B test data**: uplift factors α₁, α₂ are **assumed** or drawn from literature.
-2. **Small sample** (\~1 000 holiday transactions): high model variance—report 95% CI.
-3. **Unique customers**: cannot track repeat behavior; model predicts one‑off spending only.
-4. **External validity**: results may not generalize outside the 2023 holiday window.
-
----
-
-## 7. How to Reproduce
-
-```bash
-# 1. Set up environment
-pip install -r requirements.txt
-
-# 2. Feature engineering & labeling
-python src/features.py \
-  --input data/raw/retail_sales_dataset.csv \
-  --output data/processed/holiday.pkl
-
-# 3. Train & evaluate models
-python src/train.py \
-  --data data/processed/holiday.pkl \
-  --model-dir models/
-
-# 4. Simulate uplift
-python src/simulate.py \
-  --model models/rf.pkl \
-  --alpha-gift 0.10 \
-  --alpha-coupon 0.05 \
-  --p-thresh 0.55
-
-# 5. Generate report
-python src/report.py \
-  --results reports/metrics.json \
-  --output reports/summary.pdf
-
-# Or simply run all steps:
-./run_all.sh
-```
-
----
-
-## 8. Contributors & Credits
