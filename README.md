@@ -8,7 +8,7 @@
 
 - Veronika Brejkaln
 - Kiana Jenabidehkordi
-- Pulkit Kuman
+- Pulkit Kumar
 - Jennifer Radke
 - Elizabeth Sheremet
 - Jinkun Zhao
