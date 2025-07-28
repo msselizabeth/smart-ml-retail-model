@@ -129,4 +129,11 @@ We leverage scikit‑learn’s Pipeline and ColumnTransformer to ensure a reprod
 
 4. **Cohort-Level Insights:** Aggregated forecasts indicate Millennials will drive the highest holiday revenue (projected $X), followed by Gen Z ($Y) and Gen X ($Z). These cohort-specific projections enable targeted marketing—e.g., allocating a larger portion of the promotional budget to Millennial-focused channels to maximize ROI.
 
+## 8. Reflections
 
+1. [Veronika](https://drive.google.com/drive/u/0/folders/1J_5OHRoFxyEAWkSelTKeX7dpvZMA6UR8)
+2. [Kiana](https://www.youtube.com/watch?v=hEDUskyLBFE)
+3. [Pulkit](https://www.youtube.com/watch?v=XjW6oo1I9hw) 
+4. [Jennifer](https://www.youtube.com/watch?v=XjW6oo1I9hw)
+5. [Elizabeth](https://www.youtube.com/shorts/7-haVvQnU4Q)
+6. [Jinkun](https://www.youtube.com/shorts/wMQn7H_Q7M4) 
